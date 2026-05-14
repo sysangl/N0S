@@ -1,15 +1,28 @@
-:::::::::::::::::::::::::::::::::\n
-:::    $$$$$$$$$$$    $$$$$$$$:::\n
-:::    $$$$$$$$$$    $$$$$$$$$:::\n
-:::    $$$$$$$$$    $$$$$$$$$$:::\n
-:::    $$$$$$$$    $$$$   $$$$:::\n
-:::    $$$$$$$    $$$$    $$$$:::\n
-:::    $$$$$$    $$$$     $$$$:::\n
-:::    $$$$$    $$$$$$$$$$$$$$:::\n
-:::    $$$$    $$$$$$$$$$$$$$$:::\n
-:::    $$$    $$$$        $$$$:::\n
-:::    $$    $$$$         $$$$:::\n
-:::         $$$$          $$$$:::\n
-:::        $$$$           $$$$:::\n
-:::       $$$$            $$$$:::\n
-:::::::::::::::::::::::::::::::::\n
+VVVVVVVV           VVVVVVVV               lllllll                          OOOOOOOOO        SSSSSSSSSSSSSSS 
+V::::::V           V::::::V               l:::::l                        OO:::::::::OO    SS:::::::::::::::S
+V::::::V           V::::::V               l:::::l                      OO:::::::::::::OO S:::::SSSSSS::::::S
+V::::::V           V::::::V               l:::::l                     O:::::::OOO:::::::OS:::::S     SSSSSSS
+ V:::::V           V:::::Vaaaaaaaaaaaaa    l::::l     eeeeeeeeeeee    O::::::O   O::::::OS:::::S            
+  V:::::V         V:::::V a::::::::::::a   l::::l   ee::::::::::::ee  O:::::O     O:::::OS:::::S            
+   V:::::V       V:::::V  aaaaaaaaa:::::a  l::::l  e::::::eeeee:::::eeO:::::O     O:::::O S::::SSSS         
+    V:::::V     V:::::V            a::::a  l::::l e::::::e     e:::::eO:::::O     O:::::O  SS::::::SSSSS    
+     V:::::V   V:::::V      aaaaaaa:::::a  l::::l e:::::::eeeee::::::eO:::::O     O:::::O    SSS::::::::SS  
+      V:::::V V:::::V     aa::::::::::::a  l::::l e:::::::::::::::::e O:::::O     O:::::O       SSSSSS::::S 
+       V:::::V:::::V     a::::aaaa::::::a  l::::l e::::::eeeeeeeeeee  O:::::O     O:::::O            S:::::S
+        V:::::::::V     a::::a    a:::::a  l::::l e:::::::e           O::::::O   O::::::O            S:::::S
+         V:::::::V      a::::a    a:::::a l::::::le::::::::e          O:::::::OOO:::::::OSSSSSSS     S:::::S
+          V:::::V       a:::::aaaa::::::a l::::::l e::::::::eeeeeeee   OO:::::::::::::OO S::::::SSSSSS:::::S
+           V:::V         a::::::::::aa:::al::::::l  ee:::::::::::::e     OO:::::::::OO   S:::::::::::::::SS 
+            VVV           aaaaaaaaaa  aaaallllllll    eeeeeeeeeeeeee       OOOOOOOOO      SSSSSSSSSSSSSSS   
+
+
+
+
+                     ,,                                 
+`7MMF'   `7MF'     `7MM            .g8""8q.    .M"""bgd 
+  `MA     ,V         MM          .dP'    `YM. ,MI    "Y 
+   VM:   ,V ,6"Yb.   MM  .gP"Ya  dM'      `MM `MMb.     
+    MM.  M'8)   MM   MM ,M'   Yb MM        MM   `YMMNq. 
+    `MM A'  ,pm9MM   MM 8M"""""" MM.      ,MP .     `MM 
+     :MM;  8M   MM   MM YM.    , `Mb.    ,dP' Mb     dM 
+      VF   `Moo9^Yo.JMML.`Mbmmd'   `"bmmd"'   P"Ybmmd"  
