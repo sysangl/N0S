@@ -1,2 +1,2 @@
-# N0S
-Custom OS and bootloader. Primarily for use with a custom PDA.
+# ValeOS
+Custom OS and bootloader. Initially intended for use with a custom PDA.

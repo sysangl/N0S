@@ -1,23 +1,17 @@
-/*
- *
- * kernel.c - version 1.0.2
- * 
- */
-
-
 #define WHITE_TXT 0x07 /* light gray on black text */
 
 void k_clear_screen();
 unsigned int k_printf(char *message, unsigned int line);
+unsigned int k_printlogo(unsigned int line);
 
-/* simple kernel written in C */
 void k_main() 
 {
 	k_clear_screen();
-	k_printf("Hello world...", 0);
+	k_printlogo(0);
+	//k_printf("1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31", 0);
 };
 
-/* k_clear_screen : to clear the entire text screen */
+/* k_clear_screen : clear the entire text screen */
 void k_clear_screen()
 {
 	char *vidmem = (char *) 0xb8000;
@@ -31,7 +25,7 @@ void k_clear_screen()
 	};
 };
 
-/* k_printf : the message and the line # */
+/* k_printf : takes in the message and line # */
 unsigned int k_printf(char *message, unsigned int line)
 {
 	char *vidmem = (char *) 0xb8000;
@@ -56,4 +50,9 @@ unsigned int k_printf(char *message, unsigned int line)
 	};
 
 	return(1);
+}
+
+unsigned int k_printlogo(unsigned int line)
+{
+	k_printf(":::::::::::::::::::::::::::::::::\n:::    $$$$$$$$$$$    $$$$$$$$:::\n:::    $$$$$$$$$$    $$$$$$$$$:::\n:::    $$$$$$$$$    $$$$$$$$$$:::\n:::    $$$$$$$$    $$$$   $$$$:::\n:::    $$$$$$$    $$$$    $$$$:::\n:::    $$$$$$    $$$$     $$$$:::\n:::    $$$$$    $$$$$$$$$$$$$$:::\n:::    $$$$    $$$$$$$$$$$$$$$:::\n:::    $$$    $$$$        $$$$:::\n:::    $$    $$$$         $$$$:::\n:::         $$$$          $$$$:::\n:::        $$$$           $$$$:::\n:::       $$$$            $$$$:::\n:::::::::::::::::::::::::::::::::\n",line);
 }
