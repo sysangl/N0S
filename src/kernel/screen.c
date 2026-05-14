@@ -1,15 +1,4 @@
-#define WHITE_TXT 0x07 /* light gray on black text */
-
-void k_clear_screen();
-unsigned int k_printf(char *message, unsigned int line);
-unsigned int k_printlogo(unsigned int line);
-
-void k_main() 
-{
-	k_clear_screen();
-	k_printlogo(0);
-	//k_printf("1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31", 0);
-};
+#include "screen.h"
 
 /* k_clear_screen : clear the entire text screen */
 void k_clear_screen()
@@ -48,6 +37,23 @@ unsigned int k_printf(char *message, unsigned int line)
 			i++;
 		};
 	};
+
+	return(1);
+}
+
+/* k_putchar : places a char at the given location */
+unsigned int k_putchar(char c, unsigned int x, unsigned int y)
+{
+	char *vidmem = (char *) 0xb8000;
+	unsigned int i=0;
+
+	i=(y*80+x)*2;
+
+	vidmem[i]=c;
+	i++;
+	vidmem[i]=WHITE_TXT;
+	i++;
+
 
 	return(1);
 }
