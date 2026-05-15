@@ -15,7 +15,7 @@ NASM = nasm
 
 # Flags
 CFLAGS  = -O0 -fno-pie -fno-stack-protector -m32 -ffreestanding -I$(SRC_KERNEL)
-LDFLAGS = -m elf_i386 -T $(SRC_BOOT)/linker.ld --oformat binary
+LDFLAGS = -m elf_i386 -T $(SRC_BOOT)/linker.ld --oformat binary -L$(BUILD)
 
 # Auto-discover all .c files in src/kernel
 C_SRCS  = $(wildcard $(SRC_KERNEL)/*.c)

@@ -15,12 +15,12 @@ void k_clear_screen()
 };
 
 /* k_printf : takes in the message and line # */
-unsigned int k_printf(char *message, unsigned int line)
+unsigned int k_printf(char *message, unsigned int line, unsigned int col)
 {
 	char *vidmem = (char *) 0xb8000;
 	unsigned int i=0;
 
-	i=(line*80*2);
+	i=(line*80+col)*2;
 
 	while(*message!=0)
 	{
@@ -58,7 +58,7 @@ unsigned int k_putchar(char c, unsigned int x, unsigned int y)
 	return(1);
 }
 
-unsigned int k_printlogo(unsigned int line)
+unsigned int k_printlogo(unsigned int line, unsigned int col)
 {
-	k_printf(":::::::::::::::::::::::::::::::::\n:::    $$$$$$$$$$$    $$$$$$$$:::\n:::    $$$$$$$$$$    $$$$$$$$$:::\n:::    $$$$$$$$$    $$$$$$$$$$:::\n:::    $$$$$$$$    $$$$   $$$$:::\n:::    $$$$$$$    $$$$    $$$$:::\n:::    $$$$$$    $$$$     $$$$:::\n:::    $$$$$    $$$$$$$$$$$$$$:::\n:::    $$$$    $$$$$$$$$$$$$$$:::\n:::    $$$    $$$$        $$$$:::\n:::    $$    $$$$         $$$$:::\n:::         $$$$          $$$$:::\n:::        $$$$           $$$$:::\n:::       $$$$            $$$$:::\n:::::::::::::::::::::::::::::::::\n",line);
+	k_printf(":::::::::::::::::::::::::::::::::\n:::    $$$$$$$$$$$    $$$$$$$$:::\n:::    $$$$$$$$$$    $$$$$$$$$:::\n:::    $$$$$$$$$    $$$$$$$$$$:::\n:::    $$$$$$$$    $$$$   $$$$:::\n:::    $$$$$$$    $$$$    $$$$:::\n:::    $$$$$$    $$$$     $$$$:::\n:::    $$$$$    $$$$$$$$$$$$$$:::\n:::    $$$$    $$$$$$$$$$$$$$$:::\n:::    $$$    $$$$        $$$$:::\n:::    $$    $$$$         $$$$:::\n:::         $$$$          $$$$:::\n:::        $$$$           $$$$:::\n:::       $$$$            $$$$:::\n:::::::::::::::::::::::::::::::::\n",line,col);
 }
