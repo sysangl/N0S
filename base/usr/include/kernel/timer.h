@@ -3,6 +3,6 @@
 #define TIMER_H
 
 void k_sleep_ms(unsigned int ms);
-void timer_init();
+void timer_init(void);
 
 #endif

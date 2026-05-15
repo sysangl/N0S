@@ -1,4 +1,5 @@
-	extern void irq0_stub();
+#include <timer.h>
+extern void irq0_stub();
 
 #define PIT_FREQUENCY 1193182
 #define TICKS_PER_MS  1          /* at 1000Hz */
@@ -87,7 +88,7 @@ void irq0_handler()  /* called by your IDT on IRQ 0 */
     timer_ticks++;
     outb(0x20, 0x20);  /* send EOI to PIC */
 }
-void timer_init()
+void timer_init(void)
 {
     fpu_init();
 

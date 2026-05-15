@@ -1,5 +1,4 @@
-#include "math.h"
-
+#include <math.h>
 
 double k_pow(double base, int exp)
 {
