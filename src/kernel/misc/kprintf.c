@@ -19,11 +19,10 @@ unsigned int kprintf(const char *message, unsigned int line, unsigned int col)
 			vidmem[i]=*message;
 			message++;
 			i++;
-			vidmem[i]=WHITE_TXT;
+			vidmem[i]=WHITE;
 			i++;
 		};
 	};
-
 	return(1);
 }
 
@@ -32,14 +31,11 @@ unsigned int kputchar(char c, unsigned int x, unsigned int y)
 {
 	char *vidmem = (char *) 0xb8000;
 	unsigned int i=0;
-
 	i=(y*80+x)*2;
-
 	vidmem[i]=c;
 	i++;
-	vidmem[i]=WHITE_TXT;
+	vidmem[i]=WHITE;
 	i++;
-
 
 	return(1);
 }
@@ -57,13 +53,13 @@ unsigned int kprintlogo(unsigned int line, unsigned int col)
 		if(*message=='\n') // check for a new line
 		{
 			line++;
-			i=(line*80*2);
+			i=(line*80*2); 
 			message++;
 		} else {
 			vidmem[i]=*message;
 			message++;
 			i++;
-			vidmem[i]=BLUE_TXT;
+			vidmem[i]=MAGENTA;
 			i++;
 		};
 	};

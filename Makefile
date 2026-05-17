@@ -26,11 +26,13 @@ KERNEL_INCLUDE = $(INCLUDE)/kernel
 # Auto-discover .c files
 C_SRCS_ROOT = $(wildcard $(SRC_KERNEL)/*.c)
 C_SRCS_MISC = $(wildcard $(SRC_KERNEL)/misc/*.c)
+C_SRCS_IO = $(wildcard $(SRC_KERNEL)/io/*.c)
 
 C_OBJS_ROOT = $(patsubst $(SRC_KERNEL)/%.c,      $(BUILD)/kernel/%.o,      $(C_SRCS_ROOT))
 C_OBJS_MISC = $(patsubst $(SRC_KERNEL)/misc/%.c,  $(BUILD)/kernel/misc/%.o, $(C_SRCS_MISC))
+C_OBJS_IO = $(patsubst $(SRC_KERNEL)/io/%.c,  $(BUILD)/kernel/io/%.o, $(C_SRCS_IO))
 
-C_OBJS = $(C_OBJS_ROOT) $(C_OBJS_MISC)
+C_OBJS = $(C_OBJS_ROOT) $(C_OBJS_MISC) $(C_OBJS_IO)
 
 # Headers
 C_HDRS = $(wildcard $(INCLUDE)/kernel/*.h) $(wildcard $(INCLUDE)/kernel/*/*.h)
@@ -75,6 +77,10 @@ $(BUILD)/kernel/%.o: $(SRC_KERNEL)/%.c $(C_HDRS) | $(BUILD)/kernel
 $(BUILD)/kernel/misc/%.o: $(SRC_KERNEL)/misc/%.c $(C_HDRS) | $(BUILD)/kernel/misc
 	$(CC) $(KERNEL_CFLAGS) -nostdlib -g -I$(KERNEL_INCLUDE) -c -o $@ $<
 
+# C kernel io objects
+$(BUILD)/kernel/io/%.o: $(SRC_KERNEL)/io/%.c $(C_HDRS) | $(BUILD)/kernel/io
+	$(CC) $(KERNEL_CFLAGS) -nostdlib -g -I$(KERNEL_INCLUDE) -c -o $@ $<
+
 # Create output dirs
 $(BIN):
 	mkdir -p $@
@@ -86,6 +92,9 @@ $(BUILD)/kernel:
 	mkdir -p $@
 
 $(BUILD)/kernel/misc:
+	mkdir -p $@
+
+$(BUILD)/kernel/io:
 	mkdir -p $@
 
 clean:
