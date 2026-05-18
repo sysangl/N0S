@@ -1,5 +1,6 @@
 # ValeOS
 Custom OS and bootloader. Initially intended for use with a custom PDA.
+
 ---
 
 # Why am I making an operating system?
@@ -36,7 +37,10 @@ The roadmap is as follows :
   - Extensive user customisation
   - Video and Audio support
   - Package manager, both CLI and GUI
+  - Custom highlevel language
+    - Probably just a spin on Python
   - Some basic starter apps
+    - terminal & shell
     - text editor (tui & gui)
     - music player
     - image and video viewer
@@ -52,3 +56,12 @@ I might choose to seperate these into different repositories. Such as :
 - Apps (although I may just leave them in this repo, if theyre not too big)
 - Package manager
 - Doom (again, very important, it needs its own repo)
+
+# Building
+1. Download this repo and unzip the file
+2. Navigate into the repo, you should be in the same directory as the Makefile
+3. Open terminal and enter
+   ```make```
+4. You should have a binary called 'os-image.bin' inside the 'bin' folder. You can run it using QEMU using
+   ```qemu-system-i386 -drive format=raw,file=bin/os-image.bin,index=0,if=floppy```
+    In the future, I will test flashing a USB with the image and launching it from a computer.
