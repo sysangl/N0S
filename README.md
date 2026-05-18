@@ -7,7 +7,7 @@ Custom OS and bootloader. Initially intended for use with a custom PDA.
 Why not? There was not really any reason, except someone told me I should make my own OS. And so I did.
 
 # Overview
-This repository contains (or will contain) an entire operating system complete with a bootloader. Written in Assembly and C, this is a project built from boredom and procrastination (I should've focused on my studies). No standard C libraries will be used, everything will be self written.
+This repository contains (or will contain) an entire operating system complete with a bootloader. Written in Assembly and C, this is a project built from boredom and procrastination (I should've focused on my studies). No standard C libraries are or will be used, everything will be self written. The source code for this OS is not based on Linux.
 The roadmap is as follows :
 - Bootloader
   - and whatever this thing does, as long as it boots without being unstable I'm happy.
