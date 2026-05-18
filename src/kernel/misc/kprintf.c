@@ -1,7 +1,7 @@
 #include <kprintf.h>
 
 /* kprintf : takes in the message and line # */
-unsigned int kprintf(const char *message, unsigned int line, unsigned int col)
+unsigned int kprintcolourf(const char *message, unsigned int line, unsigned int col, int colour)
 {
 	char *vidmem = (char *) 0xb8000;
 	unsigned int i=0;
@@ -19,26 +19,17 @@ unsigned int kprintf(const char *message, unsigned int line, unsigned int col)
 			vidmem[i]=*message;
 			message++;
 			i++;
-			vidmem[i]=WHITE;
+			vidmem[i]=colour;
 			i++;
 		};
 	};
 	return(1);
 }
-
-/* kputchar : places a char at the given location */
-unsigned int kputchar(char c, unsigned int x, unsigned int y)
+unsigned int kprintf(const char *message, unsigned int line, unsigned int col)
 {
-	char *vidmem = (char *) 0xb8000;
-	unsigned int i=0;
-	i=(y*80+x)*2;
-	vidmem[i]=c;
-	i++;
-	vidmem[i]=WHITE;
-	i++;
-
-	return(1);
+	return kprintcolourf(message,line,col,WHITE);
 }
+
 
 unsigned int kprintlogo(unsigned int line, unsigned int col)
 {

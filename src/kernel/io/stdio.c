@@ -1,4 +1,4 @@
-#include <io.h>
+//#include <stdio.h>
 
 unsigned int read_input()
 {

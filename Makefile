@@ -5,6 +5,7 @@
 # Directories
 SRC_BOOT   = src/boot
 SRC_KERNEL = src/kernel
+SRC_LIBC   = src/libc
 BUILD      = build
 BIN        = bin
 INCLUDE    = base/usr/include
@@ -14,88 +15,74 @@ CC   = gcc
 LD   = ld
 NASM = nasm
 
-# Flags
-KERNEL_CFLAGS  = -m32 -O0 -ffreestanding -fno-pie -fno-stack-protector
-KERNEL_CFLAGS += -Wall -Wextra -Wno-unused-function -Wno-unused-parameter -Wstrict-prototypes
-KERNEL_CFLAGS += -pedantic -Wwrite-strings
+# Compiler flags
+CFLAGS  = -m32 -O0 -ffreestanding -fno-pie -fno-stack-protector
+CFLAGS += -Wall -Wextra -Wno-unused-function -Wno-unused-parameter -Wstrict-prototypes
+CFLAGS += -pedantic -Wwrite-strings
+CFLAGS += -nostdinc -nostdlib -MMD -MP
 
+#linker flags
 LDFLAGS = -m elf_i386 -T $(SRC_BOOT)/linker.ld --oformat binary
 
-KERNEL_INCLUDE = $(INCLUDE)/kernel
+# include flags
+IFLAGS := $(addprefix -I, $(shell find $(INCLUDE) -type d))
 
-# Auto-discover .c files
-C_SRCS_ROOT = $(wildcard $(SRC_KERNEL)/*.c)
-C_SRCS_MISC = $(wildcard $(SRC_KERNEL)/misc/*.c)
-C_SRCS_IO = $(wildcard $(SRC_KERNEL)/io/*.c)
+# AUto-discover .c sources
+KERNEL_SRCS := $(shell find $(SRC_KERNEL) -name '*.c')
+LIBC_SRCS   := $(shell find $(SRC_LIBC)   -name '*.c')
 
-C_OBJS_ROOT = $(patsubst $(SRC_KERNEL)/%.c,      $(BUILD)/kernel/%.o,      $(C_SRCS_ROOT))
-C_OBJS_MISC = $(patsubst $(SRC_KERNEL)/misc/%.c,  $(BUILD)/kernel/misc/%.o, $(C_SRCS_MISC))
-C_OBJS_IO = $(patsubst $(SRC_KERNEL)/io/%.c,  $(BUILD)/kernel/io/%.o, $(C_SRCS_IO))
+KERNEL_OBJS := $(patsubst $(SRC_KERNEL)/%.c, $(BUILD)/kernel/%.o, $(KERNEL_SRCS))
+LIBC_OBJS   := $(patsubst $(SRC_LIBC)/%.c,   $(BUILD)/libc/%.o,   $(LIBC_SRCS))
 
-C_OBJS = $(C_OBJS_ROOT) $(C_OBJS_MISC) $(C_OBJS_IO)
+C_OBJS := $(KERNEL_OBJS) $(LIBC_OBJS)
 
-# Headers
-C_HDRS = $(wildcard $(INCLUDE)/kernel/*.h) $(wildcard $(INCLUDE)/kernel/*/*.h)
+# Auto-discover all .h headers recursively
+C_HDRS := $(shell find $(INCLUDE) -name '*.h')
+
+# Derive the unique set of build subdirs we'll need to create
+C_OBJ_DIRS := $(sort $(dir $(C_OBJS)))
 
 # Boot object files
 BOOT_OBJS = $(BUILD)/boot/kernel-entry.o $(BUILD)/boot/interrupts.o
 
 # All object files for kernel.bin
-KERNEL_OBJS = $(BOOT_OBJS) $(C_OBJS)
+ALL_OBJS = $(BOOT_OBJS) $(C_OBJS)
 
-# Default target
+# Targets
 all: $(BIN)/os-image.bin
 
-# Run in QEMU
 run: $(BIN)/os-image.bin
 	qemu-system-i386 -drive format=raw,file=$<,index=0,if=floppy
 
-# Final OS image
 $(BIN)/os-image.bin: $(BIN)/mbr.bin $(BIN)/kernel.bin
 	cat $^ > $@
 
-# Kernel binary
-$(BIN)/kernel.bin: $(KERNEL_OBJS)
+$(BIN)/kernel.bin: $(ALL_OBJS) | $(BIN)
 	$(LD) $(LDFLAGS) -o $@ $^
 
-# MBR
 $(BIN)/mbr.bin: $(SRC_BOOT)/mbr.asm | $(BIN)
 	$(NASM) -I$(SRC_BOOT)/ $< -f bin -o $@
 
-# Boot ASM objects
 $(BUILD)/boot/kernel-entry.o: $(SRC_BOOT)/kernel-entry.asm | $(BUILD)/boot
 	$(NASM) $< -f elf32 -o $@
 
 $(BUILD)/boot/interrupts.o: $(SRC_BOOT)/interrupts.asm | $(BUILD)/boot
 	$(NASM) $< -f elf32 -o $@
 
-# C kernel root objects
-$(BUILD)/kernel/%.o: $(SRC_KERNEL)/%.c $(C_HDRS) | $(BUILD)/kernel
-	$(CC) $(KERNEL_CFLAGS) -nostdlib -g -I$(KERNEL_INCLUDE) -c -o $@ $<
 
-# C kernel misc objects
-$(BUILD)/kernel/misc/%.o: $(SRC_KERNEL)/misc/%.c $(C_HDRS) | $(BUILD)/kernel/misc
-	$(CC) $(KERNEL_CFLAGS) -nostdlib -g -I$(KERNEL_INCLUDE) -c -o $@ $<
+# Compiling - one rule per directory
+$(BUILD)/kernel/%.o: $(SRC_KERNEL)/%.c $(C_HDRS) | $(C_OBJ_DIRS)
+	$(CC) $(CFLAGS) -g $(IFLAGS) -c -o $@ $<
 
-# C kernel io objects
-$(BUILD)/kernel/io/%.o: $(SRC_KERNEL)/io/%.c $(C_HDRS) | $(BUILD)/kernel/io
-	$(CC) $(KERNEL_CFLAGS) -nostdlib -g -I$(KERNEL_INCLUDE) -c -o $@ $<
+$(BUILD)/libc/%.o: $(SRC_LIBC)/%.c $(C_HDRS) | $(C_OBJ_DIRS)
+	$(CC) $(CFLAGS) -g $(IFLAGS) -c -o $@ $<
 
-# Create output dirs
-$(BIN):
+# Create directories if nonexistent
+$(BIN) $(BUILD)/boot $(C_OBJ_DIRS):
 	mkdir -p $@
 
-$(BUILD)/boot:
-	mkdir -p $@
-
-$(BUILD)/kernel:
-	mkdir -p $@
-
-$(BUILD)/kernel/misc:
-	mkdir -p $@
-
-$(BUILD)/kernel/io:
-	mkdir -p $@
+# Include auto-generated dependency files
+-include $(C_OBJS:.o=.d)
 
 clean:
 	$(RM) -r $(BUILD) $(BIN)/*.bin

@@ -1,6 +1,6 @@
 #include <kprintf.h>
 #include <kshell.h>
-#include <io.h>
+#include <stdio.h>
 
 void print_prompt()
 {
