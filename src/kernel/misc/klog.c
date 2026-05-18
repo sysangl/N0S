@@ -19,7 +19,14 @@ unsigned int kwarn(const char *err, char *outputBuffer)
 unsigned int kerror(const char *err, char *outputBuffer)
 {
 	kprintf("[       ] ",14,0);
-	kprintcolourf("ERROR",14,2, RED);
+	kprintcolourf("ERROR",14,2, LIGHT_RED);
 	kprintf(err, 14,10);
+	return 1;
+}
+unsigned int ksuccess(const char *err, char *outputBuffer)
+{
+	kprintf("[         ] ",15,0);
+	kprintcolourf("SUCCESS",15,2, LIGHT_GREEN);
+	kprintf(err, 15,12);
 	return 1;
 }

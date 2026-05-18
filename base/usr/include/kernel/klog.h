@@ -5,5 +5,6 @@
 unsigned int klog(const char *err, char *outputBuffer);
 unsigned int kwarn(const char *err, char *outputBuffer);
 unsigned int kerror(const char *err, char *outputBuffer);
+unsigned int ksuccess(const char *err, char *outputBuffer);
 
 #endif

@@ -19,6 +19,7 @@ void k_main(void)
     klog("This is a log", str);
     kwarn("This is a warning", str);
     kerror("This is an error", str);
+    ksuccess("This is a success",str);
     //k_sleep_ms(1000);
     //k_clear_screen();
 }
