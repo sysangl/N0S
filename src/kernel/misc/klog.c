@@ -2,31 +2,36 @@
 #include <kprintf.h>
 #include <string.h>
 
-unsigned int klog(const char *err, char *outputBuffer)
+unsigned int klog(const char *err)
 {
-	kprintf("[ LOG ] ",12,0);
-	kprintf(err, 12,8);
+	char buf[50];
+	kstrcpy(buf, "[ LOG ] ");
+	kstrcat(buf, err);
+	kprintf(.message=buf);
 	return 1;
 }
-unsigned int kwarn(const char *err, char *outputBuffer)
+unsigned int kwarn(const char *err)
 {
-	kprintf("[      ] ",13,0);
-	kprintcolourf("WARN",13,2, YELLOW);
-	kprintf(err, 13,9);
+	char buf[50];
+	kstrcpy(buf, "[ \033[93mWARN\033[0m ] ");
+	kstrcat(buf, err);
+	kprintf(.message=buf);
 	return 1;
 }
 
-unsigned int kerror(const char *err, char *outputBuffer)
+unsigned int kerror(const char *err)
 {
-	kprintf("[       ] ",14,0);
-	kprintcolourf("ERROR",14,2, LIGHT_RED);
-	kprintf(err, 14,10);
+	char buf[50];
+	kstrcpy(buf, "[ \033[91mERROR\033[0m ] ");
+	kstrcat(buf, err);
+	kprintf(.message=buf);
 	return 1;
 }
-unsigned int ksuccess(const char *err, char *outputBuffer)
+unsigned int ksuccess(const char *err)
 {
-	kprintf("[         ] ",15,0);
-	kprintcolourf("SUCCESS",15,2, LIGHT_GREEN);
-	kprintf(err, 15,12);
+	char buf[50];
+	kstrcpy(buf, "[ \033[92mSUCCESS\033[0m ] ");
+	kstrcat(buf, err);
+	kprintf(.message=buf);
 	return 1;
 }

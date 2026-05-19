@@ -17,7 +17,7 @@ NASM = nasm
 
 # Compiler flags
 CFLAGS  = -m32 -O0 -ffreestanding -fno-pie -fno-stack-protector
-CFLAGS += -Wall -Wextra -Wno-unused-function -Wno-unused-parameter -Wstrict-prototypes
+CFLAGS += -Wall -Wextra -Wno-unused-function -Wno-unused-parameter -Wstrict-prototypes -Wno-override-init
 CFLAGS += -pedantic -Wwrite-strings
 CFLAGS += -nostdinc -nostdlib -MMD -MP
 

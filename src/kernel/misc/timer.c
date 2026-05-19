@@ -54,9 +54,9 @@ void idt_set_gate(unsigned char num, unsigned int base)
 {
     idt[num].base_low  = base & 0xFFFF;
     idt[num].base_high = (base >> 16) & 0xFFFF;
-    idt[num].selector  = 0x08;   /* your code segment */
+    idt[num].selector  = 0x08;
     idt[num].zero      = 0;
-    idt[num].flags     = 0x8E;   /* present, ring 0, interrupt gate */
+    idt[num].flags     = 0x8E;
 }
 
 void idt_init()
@@ -83,10 +83,10 @@ void pit_init(unsigned int frequency)
     outb(0x40, (divisor >> 8) & 0xFF);   /* high byte */
 }
 
-void irq0_handler()  /* called by your IDT on IRQ 0 */
+void irq0_handler()
 {
     timer_ticks++;
-    outb(0x20, 0x20);  /* send EOI to PIC */
+    outb(0x20, 0x20);
 }
 void timer_init(void)
 {
@@ -102,6 +102,6 @@ void k_sleep_ms(unsigned int ms)
     unsigned int start = timer_ticks;
     while (timer_ticks - start < ms)
     {
-        __asm__ volatile ("hlt");  /* wait for next interrupt, saves CPU */
+        __asm__ volatile ("hlt");
     }
 }

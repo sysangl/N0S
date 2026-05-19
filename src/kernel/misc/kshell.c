@@ -4,7 +4,7 @@
 
 void print_prompt()
 {
-    kprintf("$ ValeOS > ",11,0);
+    kprintf("$ ValeOS > ");
 }
 
 unsigned int kshell()

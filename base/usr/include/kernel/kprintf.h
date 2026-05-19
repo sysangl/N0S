@@ -18,10 +18,31 @@
 #define LIGHT_MAGENTA 0x0D
 #define YELLOW 0x0E
 #define WHITE 0x0F
+#define BG(bg_colour) (bg_colour*16)
+#define FG_BG(fg, bg) (fg+bg*16)
 
-unsigned int kprintcolourf(const char *message, unsigned int line, unsigned int col,int colour);
-unsigned int kprintf(const char *message, unsigned int line, unsigned int col);
-unsigned int kputchar(char c, unsigned int x, unsigned int y);
+extern unsigned int current_line;
+
+struct kprintargs {
+    const char *message;
+    unsigned int line;
+    unsigned int col;
+    int colour;
+};
+
 unsigned int kprintlogo(unsigned int line, unsigned int col);
+unsigned int (kprintf)(struct kprintargs *args);
+void k_clear_screen();
+
+#define kprintf(...) ({ \
+    struct kprintargs _args = { \
+        .message = "", \
+        .line = current_line, \
+        .col = 0, \
+        .colour = WHITE, \
+        __VA_ARGS__ \
+    }; \
+    (kprintf)(&_args); \
+})
 
 #endif
