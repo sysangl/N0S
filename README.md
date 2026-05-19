@@ -11,10 +11,13 @@ This repository contains (or will contain) an entire operating system complete w
 The roadmap is as follows :
 - Bootloader
   - and whatever this thing does, as long as it boots without being unstable I'm happy.
+  - UEFI support
+  - some way to self sign the kernel and bootloader for Secure Boot
 - Kernel
   - Text interface
   - Numerical printing
   - Error logging
+  - Error/Interrupt handling
   - Serial IO
   - Memory management
     - Paging, might try to make my owwn paging algorithm
@@ -31,7 +34,7 @@ The roadmap is as follows :
   - File system
     - Possibly might just use btrFS and write my own drivers, if not :
     - Basic interface (open, read, write, close, etc)
-    - Permission system, more like UNIX (eg. 9-byte perms : rwxr-x--x, etc)
+    - Permission system, more like UNIX (eg. 9-bit perms : rwxr-x--x, etc)
     - Try to make my own block algorithm
     - Add support for common FS, like FAT, ext4 and NTFS
   - Extensive user customisation
