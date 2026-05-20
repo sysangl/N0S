@@ -1,4 +1,5 @@
 #include <malloc.h>
+#include <kprintf.h>
 
 
 unsigned int malloc()
@@ -9,5 +10,5 @@ unsigned int malloc()
 
 unsigned int free()
 {
-    
+    return 1;
 }

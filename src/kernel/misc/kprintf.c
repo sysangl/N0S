@@ -59,7 +59,7 @@ unsigned int kprintcolourlocationf(const char *message, unsigned int line, unsig
 			message+=2;
 			int codes[4];
 			int num_codes=0;
-			while (*message != 'm' && *message != '\0' && num_codes < 4)
+			while (*message!='m' && *message != '\0' && num_codes < 4)
 			{
 				int val = 0;
 				while (*message >= '0' && *message <= '9') {
@@ -79,9 +79,9 @@ unsigned int kprintcolourlocationf(const char *message, unsigned int line, unsig
 				{} else if ((codes[c] >= 30 && codes[c] <=37) || (codes[c]>=90 && codes[c] <=97))
 				{
 					fg = sgr_to_vga_colour(codes[c]);
-				} else if (codes[c]>=40 && codes[c] <=47)
+				} else if ((codes[c]>=40 && codes[c] <=47) || (codes[c]>=100 && codes[c] <=107) )
 				{
-					bg = codes[c]-40;
+					bg = sgr_to_vga_colour(codes[c]-10);
 				}
 			}
 			if (fg != -1 && bg != -1) {

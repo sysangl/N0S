@@ -13,9 +13,6 @@ void k_main(void)
     __asm__ volatile ("sti");
     k_clear_screen();
     kprintlogo(0,0);
-    k_sleep_ms(1000);
-    kshell();
-    k_sleep_ms(1000);
     klog("This is a log");
     kwarn("This is a warning");
     kerror("This is an error");
@@ -23,16 +20,17 @@ void k_main(void)
     k_sleep_ms(1000);
     k_clear_screen();
     int i =0;
-    while (i<50){
+    while (i<10){
         klog(itoa(i,str,10));
         k_sleep_ms(100);
         i++;
     }
+    kprintf(.message="\033[107;31mTest?");
+    
 }
 
 
 void __stack_chk_fail(void) {
-    char str[10];
 	kerror("Stack check failed!");
 	while (1);
 }
