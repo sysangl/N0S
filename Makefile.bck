@@ -14,20 +14,22 @@ INCLUDE    = base/usr/include
 CC   = gcc
 LD   = ld
 NASM = nasm
+OBJCOPY = objcopy
 
 # Compiler flags
-CFLAGS  = -m32 -O0 -ffreestanding -fno-pie -fno-stack-protector
+CFLAGS  = -m64 -O0 -ffreestanding -fno-pie -fno-stack-protector -fno-builtin
 CFLAGS += -Wall -Wextra -Wno-unused-function -Wno-unused-parameter -Wstrict-prototypes -Wno-override-init
 CFLAGS += -pedantic -Wwrite-strings
-CFLAGS += -nostdinc -nostdlib -MMD -MP
+CFLAGS += -nostdinc -nostdlib -nodefaultlibs -MMD -MP
+CFLAGS += -mcmodel=large  # Important for kernel code
 
-#linker flags
-LDFLAGS = -m elf_i386 -T $(SRC_BOOT)/linker.ld --oformat binary
+# Linker flags
+LDFLAGS = -m elf_x86_64 -T $(SRC_BOOT)/linker.ld --no-warn-rwx-segments
 
-# include flags
+# Include flags
 IFLAGS := $(addprefix -I, $(shell find $(INCLUDE) -type d))
 
-# AUto-discover .c sources
+# Auto-discover .c sources
 KERNEL_SRCS := $(shell find $(SRC_KERNEL) -name '*.c')
 LIBC_SRCS   := $(shell find $(SRC_LIBC)   -name '*.c')
 
@@ -49,28 +51,39 @@ BOOT_OBJS = $(BUILD)/bootloader/kernel-entry.o $(BUILD)/bootloader/interrupts.o
 ALL_OBJS = $(BOOT_OBJS) $(C_OBJS)
 
 # Targets
-all: $(BIN)/os-image.bin
+all: $(BIN)/os.img
 
-run: $(BIN)/os-image.bin
-	qemu-system-i386 -drive format=raw,file=$<,index=0,if=floppy
+run: $(BIN)/os.img
+	qemu-system-x86_64 -drive format=raw,file=$<,index=0,if=floppy
 
-$(BIN)/os-image.bin: $(BIN)/mbr.bin $(BIN)/kernel.bin
+debug: $(BIN)/os.img
+	qemu-system-x86_64 -drive format=raw,file=$<,index=0,if=floppy -s -S
+
+# Debug the Makefile
+test:
+	echo $(shell find kernel -name '*.c')
+
+
+$(BIN)/os.img: $(BUILD)/bootloader/boot $(BIN)/kernel.bin
 	cat $^ > $@
 
-$(BIN)/kernel.bin: $(ALL_OBJS) | $(BIN)
-	$(LD) $(LDFLAGS) -o $@ $^
+# Create binary kernel from ELF
+$(BIN)/kernel.bin: $(BIN)/kernel.elf
+	$(OBJCOPY) -O binary $< $@
 
-$(BIN)/mbr.bin: $(SRC_BOOT)/mbr.asm | $(BIN)
-	$(NASM) -I$(SRC_BOOT)/ $< -f bin -o $@
+# Link ELF kernel
+$(BIN)/kernel.elf: $(ALL_OBJS) $(SRC_BOOT)/linker.ld | $(BIN)
+	$(LD) $(LDFLAGS) -o $@ $(ALL_OBJS)
+
+$(BUILD)/bootloader/boot: $(SRC_BOOT)/boot.asm | $(BUILD)/bootloader
+	$(NASM) $< -i $(SRC_BOOT)/ -o $@
 
 $(BUILD)/bootloader/kernel-entry.o: $(SRC_BOOT)/kernel-entry.asm | $(BUILD)/bootloader
-	$(NASM) $< -f elf32 -o $@
+	$(NASM) $< -f elf64 -o $@
 
 $(BUILD)/bootloader/interrupts.o: $(SRC_BOOT)/interrupts.asm | $(BUILD)/bootloader
-	$(NASM) $< -f elf32 -o $@
+	$(NASM) $< -f elf64 -o $@
 
-
-# Compiling - one rule per directory
 $(BUILD)/kernel/%.o: $(SRC_KERNEL)/%.c $(C_HDRS) | $(C_OBJ_DIRS)
 	$(CC) $(CFLAGS) -g $(IFLAGS) -c -o $@ $<
 
@@ -85,6 +98,6 @@ $(BIN) $(BUILD)/bootloader $(C_OBJ_DIRS):
 -include $(C_OBJS:.o=.d)
 
 clean:
-	$(RM) -r $(BUILD) $(BIN)/*.bin
+	$(RM) -r $(BUILD) $(BIN)/*.bin $(BIN)/*.elf $(BIN)/*.img
 
-.PHONY: all run clean
+.PHONY: all run clean debug

@@ -1,5 +1,4 @@
 #include <kprintf.h>
-#include <screen.h>
 
 unsigned int current_line = 0;
 

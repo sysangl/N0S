@@ -6,8 +6,9 @@
 #include <klog.h>
 #include <math.h>
 
-void k_main(void) 
+void kmain(void) 
 {
+    k_clear_screen();
     char str[10];
     timer_init();
     __asm__ volatile ("sti");
@@ -21,12 +22,12 @@ void k_main(void)
     k_clear_screen();
     int i =0;
     while (i<10){
-        klog(itoa(i,str,10));
-        k_sleep_ms(100);
-        i++;
+       klog(itoa(i,str,10));
+       k_sleep_ms(100);
+       i++;
     }
     kprintf(.message="\033[107;31mTest?");
-    
+    while (1);
 }
 
 

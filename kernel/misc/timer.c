@@ -12,19 +12,17 @@ void outb(unsigned short port, unsigned char value)
 }
 void fpu_init()
 {
-    unsigned int cr0;
+    unsigned long cr0;
     __asm__ volatile ("mov %%cr0, %0" : "=r"(cr0));
-    cr0 &= ~(1 << 2);
-    cr0 &= ~(1 << 3);
-    cr0 |=  (1 << 1);
+    cr0 &= ~(1UL << 2);
+    cr0 &= ~(1UL << 3);
+    cr0 |=  (1UL << 1);
     __asm__ volatile ("mov %0, %%cr0" : : "r"(cr0));
     __asm__ volatile ("fninit");
 
-    /* mask all FPU exceptions */
     unsigned short cw = 0x037f;
     __asm__ volatile ("fldcw %0" : : "m"(cw));
 }
-
 void pic_remap()
 {
     outb(0x20, 0x11); outb(0xA0, 0x11); /* init command */
